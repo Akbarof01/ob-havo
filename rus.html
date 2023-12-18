@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="png"
+     href="./lodoo.png">
+    <link rel="stylesheet" href="./style.css">
+    <title>ПОГОДА</title>
+</head>
+<body>
+    <h1>
+        <img class="logoooo" src="./qlogo.jpg" alt="">
+        Панель управления погодой
+        <div class="lang">
+            <a href=""><i class="rus"></i> РУС</a> &nbsp;&nbsp;
+<span><i class="uzb"></i> O`ZB</span>
+    </div>
+    </h1>
+        
+    <div class="container">
+        <div class="weather-input">
+            <h3>Введите название города</h3>
+            <input class="city-input" type="text" placeholder="Например, Fergana, Toshkent, Samarqand">
+            <button class="search-btn" class="button" style="vertical-align:middle"><span>искать </span></button>
+            <div class="separator"></div>
+            <button class="location-btn">Использовать текущее местоположение</button>
+            <div class="yangliklar">
+                <h1 class="y1">
+                    Новости:
+                    «Метан заправкас» может выйти на полноценный режим работы
+                </h1>
+                <img src="./metan.jpg" alt="" class="metan">
+                <br>
+                <p>
+                    Со следующей недели газозаправочные компрессорные станции для автомобилей (АГТКС) снова заработают на полную мощность
+                    может работать с Об этом сообщил пресс-секретарь министра энергетики Хасан Тошходжаев.
+                    «Предназначен для эксплуатации в любых погодных условиях осенне-зимнего сезона...
+                    <a class="ahref" href="https://kun.uz/news/2023/12/15/metan-zapravkalar-toliq-ish-rejimiga-otishi-mumkin">«ещё» </a>
+                </p>
+            </div>
+
+        </div>
+        <div class="weather-data">
+            <div class="current-weather">
+                <div class="details">
+                    <h2>_______ ( ______ )</h2>
+                    <h6>Температура: __°C</h6>
+                    <h6>Ветер: __ M/S</h6>
+                    <h6>Влага: __%</h6>
+                </div>
+            </div>
+            <div class="days-forecast">
+                <h2>5 kunlik prognoz</h2>
+                <ul class="weather-cards">
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                    <h6>Температура: __°C</h6>
+                    <h6>Ветер: __ M/S</h6>
+                    <h6>Влага: __%</h6>
+                    </li>
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                    <h6>Температура: __°C</h6>
+                    <h6>Ветер: __ M/S</h6>
+                    <h6>Влага: __%</h6>
+                    </li>
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                    <h6>Температура: __°C</h6>
+                    <h6>Ветер: __ M/S</h6>
+                    <h6>Влага: __%</h6>
+                    </li>
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                    <h6>Температура: __°C</h6>
+                    <h6>Ветер: __ M/S</h6>
+                    <h6>Влага: __%</h6>
+                    </li>
+                    <li class="card">
+                        <h3>( ______ )</h3>
+                    <h6>Температура: __°C</h6>
+                    <h6>Ветер: __ M/S</h6>
+                    <h6>Влага: __%</h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script>
+        if ('WebSocket' in window) {
+            (function() {
+                function refreshCSS() {
+                    var sheets = [].slice.call(document.getElementsByTagName("link"));
+                    var head = document.getElementsByTagName("head")[0];
+                    for (var i = 0; i < sheets.length; ++i) {
+                        var elem = sheets[i];
+                        var parent = elem.parentElement || head;
+                        parent.removeChild(elem);
+                        var rel = elem.rel;
+                        if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+                            var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+                            elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+                        }
+                        parent.appendChild(elem);
+                    }
+                }
+                var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+                var address = protocol + window.location.host + window.location.pathname + '/ws';
+                var socket = new WebSocket(address);
+                socket.onmessage = function(msg) {
+                    if (msg.data == 'reload') window.location.reload();
+                    else if (msg.data == 'refreshcss') refreshCSS();
+                };
+                if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+                    console.log('Jonli qayta yuklash yoqilgan.');
+                    sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+                }
+            })();
+        } else {
+            console.error("Brauzeringizni yangilang. Ushbu Brauzer Live-Reloading uchun WebSocket-ni qo'llab-quvvatlamaydi.");
+        }
+        // ]]>
+    </script>
+    <script src="./main.js"></script>
+</body>
+</html>
